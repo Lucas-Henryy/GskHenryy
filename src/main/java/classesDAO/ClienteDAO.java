@@ -1,8 +1,11 @@
 package classesDAO;
 
+import classes.Cliente;
 import classes.JPAUtil;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.util.List;
 
 public class ClienteDAO {
 
@@ -15,7 +18,7 @@ public class ClienteDAO {
     }
 
     public Cliente buscarPorId(String id) {
-        executarTransacao(em = JPAUtil.getEntityManager());
+        EntityManager em = JPAUtil.getEntityManager();
 
         try {
             return em.find(Cliente.class, id);
@@ -25,22 +28,35 @@ public class ClienteDAO {
         }
     }
 
-    public list<cliente> listarTodos() {
+    public List<Cliente> listarTodos() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            TypedQuery<cliente> query = em.createQuery("SELECT c FROM Cliente c", cliente.class);
+            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c", Cliente.class);
             return query.getResultList();
         } finally {
             em.close();
         }
-
     }
 
-    public list<cliente> buscarPorCPF() {
+    public List<Cliente> buscarPorCPF(String cpf) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            TypedQuery<cliente> query = em.createQuery("SELECT c FROM Cliente c WHERE c.cpf :cpf", cliente.class);
+            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c WHERE c.cpf :cpf", Cliente.class);
             return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void excluir(String id) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Cliente cliente = em.find(Cliente.class, id);
+            if(cliente != null){
+            em.remove(cliente);
+            }
+        em.getTransaction().commit();
         } finally {
             em.close();
         }
