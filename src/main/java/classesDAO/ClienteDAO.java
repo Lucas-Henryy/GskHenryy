@@ -2,7 +2,6 @@ package classesDAO;
 
 import classes.Cliente;
 import classes.JPAUtil;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
@@ -19,10 +18,8 @@ public class ClienteDAO {
 
     public Cliente buscarPorId(String id) {
         EntityManager em = JPAUtil.getEntityManager();
-
         try {
             return em.find(Cliente.class, id);
-
         } finally {
             em.close();
         }
@@ -41,7 +38,11 @@ public class ClienteDAO {
     public List<Cliente> buscarPorCPF(String cpf) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            TypedQuery<Cliente> query = em.createQuery("SELECT c FROM Cliente c WHERE c.cpf :cpf", Cliente.class);
+            TypedQuery<Cliente> query = em.createQuery(
+                "SELECT c FROM Cliente c WHERE c.cpf = :cpf",
+                Cliente.class
+            );
+            query.setParameter("cpf", cpf);
             return query.getResultList();
         } finally {
             em.close();
@@ -53,27 +54,27 @@ public class ClienteDAO {
         try {
             em.getTransaction().begin();
             Cliente cliente = em.find(Cliente.class, id);
-            if(cliente != null){
-            em.remove(cliente);
+            if (cliente != null) {
+                em.remove(cliente);
             }
-        em.getTransaction().commit();
+            em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
+    
     private void executarTransacao(java.util.function.Consumer<EntityManager> acao) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
             acao.accept(em);
-            em.getTransaction().rollback();
+            em.getTransaction().commit();
         } catch (RuntimeException e) {
             em.getTransaction().rollback();
+            throw e;
         } finally {
             em.close();
         }
-
     }
-
 }
