@@ -15,7 +15,7 @@ public class FuncionarioService {
         try {
             funcionarioDAO.salvar(funcionario);
             Alerta.Sucesso("Cadastro concluído!!", "Funcionario cadastrado com sucesso");
-            
+
         } catch (Exception e) {
             Alerta.Erro("Erro ao Cadastrar", "Ocorreu um erro ao Cadastrar");
         }
@@ -32,33 +32,43 @@ public class FuncionarioService {
         }
     }
 
-    public List<Cargo> listarCargo(String cargo){
+    public List<Cargo> listarCargo(String cargo) {
         try {
             return funcionarioDAO.ListarCargos(cargo);
-        }catch (Exception e) {
+        } catch (Exception e) {
         }
-    return List.of();
+        return List.of();
     }
-    
+
     public List<Funcionario> listarFuncionarios(String cpf) {
         try {
             if (cpf == null || cpf.isEmpty()) {
                 return funcionarioDAO.listarTodos();
             }
-          return funcionarioDAO.buscarPorCPF(cpf);
+            return funcionarioDAO.buscarPorCPF(cpf);
         } catch (Exception e) {
             Alerta.Erro("Erro listagem", "Erro ao buscar informacoes para lista");
             return List.of();
         }
     }
-    
-    public Funcionario buscarFuncionario (String idFuncionario){
-        
+
+    public Funcionario buscarFuncionario(String idFuncionario) {
+
         try {
             return funcionarioDAO.buscarPorId(idFuncionario);
         } catch (Exception e) {
-            Alerta.Erro("Erro", "Erro ao listar o cliente");
+            Alerta.Erro("Erro", "Ocorreu um erro ao buscar o funcionario");
             return null;
         }
-    } 
+    }
+
+    public void excluirFuncionario(String idFuncinario) {
+
+        try {
+            funcionarioDAO.excluirFuncionario(idFuncinario);
+            Alerta.Sucesso("Cadastro concluído!!", "Funcionario cadastrado com sucesso");
+        } catch (Exception e) {
+            Alerta.Erro("Erro ao excluir", "Ocorreu um erro ao excluir as informações");
+        }
+    }
 }
