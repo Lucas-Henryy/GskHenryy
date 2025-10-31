@@ -1,5 +1,6 @@
 package services;
 
+import classes.Cargo;
 import classes.Funcionario;
 import classesDAO.FuncionarioDAO;
 import java.util.List;
@@ -12,7 +13,7 @@ public class FuncionarioService {
     public void cadastrarFuncionario(Funcionario funcionario) {
 
         try {
-            funcionarioDAO.salvar(funcionario)
+            funcionarioDAO.salvar(funcionario);
             Alerta.Sucesso("Cadastro concluído!!", "Funcionario cadastrado com sucesso");
             
         } catch (Exception e) {
@@ -23,7 +24,7 @@ public class FuncionarioService {
     public void editarFuncionario(Funcionario funcionario) {
 
         try {
-            funcionarioDAO.atualizar(funcionario)
+            funcionarioDAO.atualizar(funcionario);
             Alerta.Sucesso("Sucesso!", "Edição realizada com sucesso");
 
         } catch (Exception e) {
@@ -31,22 +32,30 @@ public class FuncionarioService {
         }
     }
 
+    public List<Cargo> listarCargo(String cargo){
+        try {
+            return funcionarioDAO.ListarCargos(cargo);
+        }catch (Exception e) {
+        }
+    return List.of();
+    }
+    
     public List<Funcionario> listarFuncionarios(String cpf) {
         try {
             if (cpf == null || cpf.isEmpty()) {
                 return funcionarioDAO.listarTodos();
             }
-            return funcionarioDAO.buscarPorCpf(cpf)
+          return funcionarioDAO.buscarPorCPF(cpf);
         } catch (Exception e) {
             Alerta.Erro("Erro listagem", "Erro ao buscar informacoes para lista");
             return List.of();
         }
     }
     
-    public Funcionario buscarCliente (String idFuncionario){
+    public Funcionario buscarFuncionario (String idFuncionario){
         
         try {
-            return funcionarioDAO.buscarPorId(idFuncionario)
+            return funcionarioDAO.buscarPorId(idFuncionario);
         } catch (Exception e) {
             Alerta.Erro("Erro", "Erro ao listar o cliente");
             return null;
