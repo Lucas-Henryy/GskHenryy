@@ -1,11 +1,9 @@
 package classesDAO;
 
-import classes.Cargo;
 import classes.Funcionario;
 import classes.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FuncionarioDAO {
@@ -45,16 +43,6 @@ public class FuncionarioDAO {
         try {
             TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpfF :cpfF", Funcionario.class);
             query.setParameter("cpfF", cpf);
-            return query.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    public List<Cargo> ListarCargos() {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            TypedQuery<Cargo> query = em.createQuery("SELECT c FROM Cargo c", Cargo.class);
             return query.getResultList();
         } finally {
             em.close();
