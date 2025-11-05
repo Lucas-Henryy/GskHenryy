@@ -32,7 +32,7 @@ public class FuncionarioDAO {
     public List<Funcionario> listarTodos() {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT c FROM Cliente c", Funcionario.class);
+            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class);
             return query.getResultList();
         } finally {
             em.close();
@@ -43,16 +43,16 @@ public class FuncionarioDAO {
     public List<Funcionario> buscarPorCPF(String cpf) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
-            TypedQuery<Funcionario> query = em.createQuery("SELECT c FROM Cliente c WHERE c.cpfF :cpfF", Funcionario.class);
+            TypedQuery<Funcionario> query = em.createQuery("SELECT f FROM Funcionario f WHERE f.cpfF :cpfF", Funcionario.class);
+            query.setParameter("cpfF", cpf);
             return query.getResultList();
         } finally {
             em.close();
         }
     }
 
-    public List<Cargo> ListarCargos(String cargo) {
+    public List<Cargo> ListarCargos() {
         EntityManager em = JPAUtil.getEntityManager();
-        List<Cargo> cargos = new ArrayList<>();
         try {
             TypedQuery<Cargo> query = em.createQuery("SELECT c FROM Cargo c", Cargo.class);
             return query.getResultList();
@@ -65,9 +65,9 @@ public class FuncionarioDAO {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            Funcionario cliente = em.find(Funcionario.class, id);
-            if (cliente != null) {
-                em.remove(cliente);
+            Funcionario funcionario = em.find(Funcionario.class, id);
+            if (funcionario != null) {
+                em.remove(funcionario);
             }
             em.getTransaction().commit();
         } finally {
@@ -80,13 +80,12 @@ public class FuncionarioDAO {
         try {
             em.getTransaction().begin();
             acao.accept(em);
-            em.getTransaction().rollback();
+            em.getTransaction().commit();
         } catch (RuntimeException e) {
             em.getTransaction().rollback();
+            throw e;
         } finally {
             em.close();
         }
-
     }
-
 }
