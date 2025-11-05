@@ -1,13 +1,30 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package classesDAO;
 
-/**
- *
- * @author lucaa
- */
+import classes.Cargo;
+import classes.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import java.util.List;
+
 public class CargoDAO {
-    
+
+    public List<Cargo> listarCargos() {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            TypedQuery<Cargo> query = em.createQuery("SELECT c FROM Cargo c", Cargo.class);
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Cargo buscarPorId(Long id) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.find(Cargo.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
 }
