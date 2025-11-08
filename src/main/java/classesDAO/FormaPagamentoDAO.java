@@ -1,27 +1,25 @@
-
 package classesDAO;
 
 import classes.FormaPagamento;
 import classes.JPAUtil;
 import jakarta.persistence.EntityManager;
-import validacoes.Alerta;
 
 public class FormaPagamentoDAO {
-    public static void cadastrarVenda(FormaPagamento formapagamento) {
+
+    public void cadastrarFormaPagamento(FormaPagamento formaPagamento) {
         EntityManager em = JPAUtil.getEntityManager();
+
         try {
             em.getTransaction().begin();
-            em.persist(formapagamento.getVenda());
-            em.persist(formapagamento);
+            em.persist(formaPagamento.getVenda());  
+            em.persist(formaPagamento);             
             em.getTransaction().commit();
-            Alerta.Erro("Cadastro concluído!", "Venda cadastrado com sucesso!");
-
         } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();    
-            Alerta.Erro("Erro no cadastro", "Erro ao inserir da venda o cadastro no banco");
+            em.getTransaction().rollback();
+            throw e;
         } finally {
-            JPAUtil.closeEntityManager();
+            em.close();
         }
     }
 }
+
