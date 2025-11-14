@@ -1,9 +1,8 @@
 package controllers;
 
 import classes.Cargo;
-import services.CargoService;
-import validacoes.Alerta;
 import java.util.List;
+import services.CargoService;
 
 public class CargoController {
 
