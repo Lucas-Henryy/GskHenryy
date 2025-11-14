@@ -15,11 +15,11 @@ public class FormaPagamentoController {
     public void cadastrarFormaPagamento(FormaPagamento formaPagamento) {
         try {
             formaPagamentoService.cadastrarVenda(formaPagamento);
-            Alerta.Erro("Forma de pagamento cadastrada com sucesso!", "Sucesso");
+            System.out.println("Forma de pagamento cadastrada com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro ao cadastrar forma de pagamento");
+            System.out.println("Erro ao cadastrar forma de pagamento");
         } catch (Exception e) {
-            Alerta.Erro("Ocorreu um erro inesperado ao salvar a forma de pagamento.", "Erro do Sistema");
+            System.out.println("Ocorreu um erro inesperado ao salvar a forma de pagamento.");
         }
     }
 
@@ -28,7 +28,7 @@ public class FormaPagamentoController {
             formaPagamentoService.cadastrarVenda(formaPagamento);
             return true;
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro de validação");
+            System.out.println("Erro de validação");
             return false;
         }
     }

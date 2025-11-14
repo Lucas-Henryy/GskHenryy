@@ -17,22 +17,22 @@ public class ProdutoController {
     public void cadastrarProduto(Produto produto) {
         try {
             produtoService.cadastrarProduto(produto);
-            Alerta.Erro("Cadastro concluído!", "Produto cadastrado com sucesso!");
+            System.out.println("Produto cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro no cadastro", e.getMessage());
+            System.out.println("Erro no cadastro");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Falha ao cadastrar o produto no sistema.");
+            System.out.println("Falha ao cadastrar o produto no sistema.");
         }
     }
 
     public void editarProduto(Produto produto) {
         try {
             produtoService.editarProduto(produto);
-            Alerta.Erro("Atualização concluída!", "Produto atualizado com sucesso!");
+            System.out.println("Produto atualizado com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na atualização", e.getMessage());
+            System.out.println("Erro na atualização");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Falha ao atualizar o produto no sistema.");
+            System.out.println("Falha ao atualizar o produto no sistema.");
         }
     }
 
@@ -40,7 +40,7 @@ public class ProdutoController {
         try {
             return produtoService.listarProdutos(cod);
         } catch (Exception e) {
-            Alerta.Erro("Erro na listagem", "Falha ao listar os produtos cadastrados.");
+            System.out.println("Falha ao listar os produtos cadastrados.");
             return null;
         }
     }
@@ -49,9 +49,9 @@ public class ProdutoController {
         try {
             return produtoService.buscarPorId(id);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na busca", e.getMessage());
+            System.out.println("Erro na busca");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Falha ao buscar o produto pelo ID.");
+            System.out.println("Falha ao buscar o produto pelo ID.");
         }
         return null;
     }
@@ -59,11 +59,11 @@ public class ProdutoController {
     public void excluirProduto(String id) {
         try {
             produtoService.excluirProdutos(id);
-            Alerta.Erro("Exclusão concluída!", "Produto removido com sucesso!");
+            System.out.println("roduto removido com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na exclusão", e.getMessage());
+            System.out.println("Erro na exclusão");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Falha ao excluir o produto do sistema.");
+            System.out.println("Falha ao excluir o produto do sistema.");
         }
     }
 }

@@ -45,7 +45,7 @@ public class Funcionario {
     private Login login;
     
     @ManyToOne  
-    @JoinColumn(name = "cargo_id", unique = true)
+    @JoinColumn(name = "cargo_id")
     private Cargo cargo;
 
     public Long getId() {

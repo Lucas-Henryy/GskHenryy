@@ -19,7 +19,7 @@ public class VendaController {
         try {
             return vendaService.buscarClientePorCPF(cpf);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro ao buscar cliente");
+            System.out.println("Erro ao buscar cliente");
             return null;
         }
     }
@@ -28,7 +28,7 @@ public class VendaController {
         try {
             return vendaService.buscarProdutoPorCodigo(codigo);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro ao buscar produto");
+            System.out.println("Erro ao buscar produto");
             return null;
         }
     }
@@ -37,7 +37,7 @@ public class VendaController {
         try {
             return vendaService.listarVendas(nomeCliente);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro ao listar vendas");
+            System.out.println("Erro ao listar vendas");
             return null;
         }
     }
@@ -45,9 +45,9 @@ public class VendaController {
     public void excluirVenda(String id) {
         try {
             vendaService.excluirVenda(id);
-            Alerta.Erro("Venda excluída com sucesso!", "Sucesso");
+            System.out.println("Venda excluída com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro ao excluir venda");
+            System.out.println("Erro ao excluir venda");
         }
     }
 
@@ -56,7 +56,7 @@ public class VendaController {
             vendaService.validarVenda(venda);
             return true;
         } catch (IllegalArgumentException e) {
-            Alerta.Erro(e.getMessage(), "Erro de validação");
+            System.out.println("Erro de validação");
             return false;
         }
     }

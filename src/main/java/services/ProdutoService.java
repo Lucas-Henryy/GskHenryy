@@ -23,7 +23,7 @@ public class ProdutoService {
         }
         validarCamposObrigatorios(produto);
         produtoDAO.editarProduto(produto);
-    }
+}
 
     public void excluirProdutos(String id) {
         if (id == null || id.isBlank()) {
@@ -48,7 +48,6 @@ public class ProdutoService {
         return produtoDAO.pegarCategoria();
     }
 
-    // ✅ Validações baseadas no schema do banco
     private void validarCamposObrigatorios(Produto produto) {
         if (produto == null) {
             throw new IllegalArgumentException("O produto não pode ser nulo.");

@@ -16,11 +16,11 @@ public class FuncionarioController {
     public void cadastrarFuncionario(Funcionario funcionario) {
         try {
             funcionarioService.salvarFuncionario(funcionario);
-            Alerta.Sucesso("Cadastro realizado com sucesso!", "Funcionário cadastrado com sucesso!");
+            System.out.println("Funcionário cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro no cadastro", e.getMessage());
+            System.out.println("Erro no cadastro");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Ocorreu um erro ao cadastrar o funcionário.");
+            System.out.println("Ocorreu um erro ao cadastrar o funcionário.");
             
         }
     }
@@ -28,11 +28,11 @@ public class FuncionarioController {
     public void atualizarFuncionario(Funcionario funcionario) {
         try {
             funcionarioService.atualizarFuncionario(funcionario);
-            Alerta.Sucesso("Atualização concluída", "Dados do funcionário atualizados com sucesso!");
+            System.out.println("Dados do funcionário atualizados com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na atualização", e.getMessage());
+            System.out.println("Erro na atualização");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Ocorreu um erro ao atualizar o funcionário.");
+            System.out.println("Ocorreu um erro ao atualizar o funcionário.");
             
         }
     }
@@ -40,11 +40,11 @@ public class FuncionarioController {
     public void excluirFuncionario(String id) {
         try {
             funcionarioService.excluirFuncionario(id);
-            Alerta.Sucesso("Exclusão concluída", "Funcionário removido com sucesso!");
+            System.out.println("Funcionário removido com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na exclusão", e.getMessage());
+            System.out.println("Erro na exclusão");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Ocorreu um erro ao excluir o funcionário.");
+            System.out.println("Ocorreu um erro ao excluir o funcionário.");
             
         }
     }
@@ -53,7 +53,7 @@ public class FuncionarioController {
         try {
             return funcionarioService.listarFuncionarios();
         } catch (Exception e) {
-            Alerta.Erro("Erro na listagem", "Ocorreu um erro ao listar os funcionários.");
+            System.out.println("Ocorreu um erro ao listar os funcionários.");
             
         }
         return null;
@@ -63,9 +63,9 @@ public class FuncionarioController {
         try {
             return funcionarioService.buscarPorCPF(cpf);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro na busca", e.getMessage());
+            System.out.println("Erro na busca");
         } catch (Exception e) {
-            Alerta.Erro("Erro inesperado", "Ocorreu um erro ao buscar o funcionário pelo CPF.");
+            System.out.println("Ocorreu um erro ao buscar o funcionário pelo CPF.");
            
         }
         return null;

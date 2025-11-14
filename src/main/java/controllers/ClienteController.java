@@ -16,33 +16,33 @@ public class ClienteController {
     public void cadastrarCliente(Cliente cliente) {
         try {
             clienteService.salvarCliente(cliente);
-            Alerta.Sucesso("Cadastro concluído!", "Cliente cadastrado com sucesso!");
+            System.out.println("Cliente cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro de validação", e.getMessage());
+            System.out.println("Erro de validação");
         } catch (Exception e) {
-            Alerta.Erro("Erro ao cadastrar", "Ocorreu um erro ao salvar o cliente no banco de dados.");
+            System.out.println("Ocorreu um erro ao salvar o cliente no banco de dados.");
         }
     }
 
     public void editarCliente(Cliente cliente) {
         try {
             clienteService.atualizarCliente(cliente);
-            Alerta.Sucesso("Atualização concluída!", "Cliente atualizado com sucesso!");
+            System.out.println("Cliente atualizado com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro de validação", e.getMessage());
+            System.out.println("Erro de validação");
         } catch (Exception e) {
-            Alerta.Erro("Erro ao atualizar", "Ocorreu um erro ao editar o cliente no banco de dados.");
+            System.out.println("Ocorreu um erro ao editar o cliente no banco de dados.");
         }
     }
 
     public void excluirCliente(String id) {
         try {
             clienteService.excluirCliente(id);
-            Alerta.Sucesso("Exclusão concluída!", "Cliente excluído com sucesso!");
+            System.out.println("Cliente excluído com sucesso!");
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro de validação", e.getMessage());
+            System.out.println("Erro de validação");
         } catch (Exception e) {
-            Alerta.Erro("Erro ao excluir", "Ocorreu um erro ao excluir o cliente do banco de dados.");
+            System.out.println("Ocorreu um erro ao excluir o cliente do banco de dados.");
         }
     }
 
@@ -50,7 +50,7 @@ public class ClienteController {
         try {
             return clienteService.buscarPorId(id);
         } catch (Exception e) {
-            Alerta.Erro("Erro na busca", "Não foi possível encontrar o cliente.");
+            System.out.println("Não foi possível encontrar o cliente");
             return null;
         }
     }
@@ -59,7 +59,7 @@ public class ClienteController {
         try {
             return clienteService.listarClientes();
         } catch (Exception e) {
-            Alerta.Erro("Erro na listagem", "Ocorreu um erro ao listar os clientes.");
+            System.out.println("Ocorreu um erro ao listar os clientes.");
             return null;
         }
     }
@@ -68,9 +68,9 @@ public class ClienteController {
         try {
             return clienteService.buscarPorCPF(cpf);
         } catch (IllegalArgumentException e) {
-            Alerta.Erro("Erro de validação", e.getMessage());
+            System.out.println("Erro de validação");
         } catch (Exception e) {
-            Alerta.Erro("Erro na busca", "Ocorreu um erro ao buscar cliente pelo CPF.");
+            System.out.println("Ocorreu um erro ao buscar cliente pelo CPF.");
         }
         return null;
     }
