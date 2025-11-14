@@ -3,18 +3,17 @@ package services;
 import classes.Cargo;
 import classes.Funcionario;
 import classesDAO.FuncionarioDAO;
-import classesDAO.CargoDAO;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class FuncionarioService {
 
     private final FuncionarioDAO funcionarioDAO;
-    private final CargoDAO cargoDAO;
+    private final CargoService cargoService;
 
     public FuncionarioService() {
         this.funcionarioDAO = new FuncionarioDAO();
-        this.cargoDAO = new CargoDAO();
+        this.cargoService = new CargoService();
     }
 
     public void salvarFuncionario(Funcionario funcionario) {
@@ -51,7 +50,6 @@ public class FuncionarioService {
         funcionarioDAO.excluirFuncionario(id);
     }
 
-    // ====================== VALIDAÇÕES ======================
 
     private void validarFuncionario(Funcionario funcionario) {
         if (funcionario == null) {
@@ -115,9 +113,9 @@ public class FuncionarioService {
             throw new IllegalArgumentException("O funcionário deve possuir um cargo válido!");
         }
         
-        List<Cargo> cargos = cargoDAO.listarCargos();
+        List<Cargo> cargos = cargoService.listarCargos();
         
-        Cargo cargoExistente = cargoDAO.buscarPorId(funcionario.getCargo().getId());
+        Cargo cargoExistente = cargoService.buscarPorId(funcionario.getCargo().getId());
         if (cargoExistente == null) {
             throw new IllegalArgumentException("O cargo informado não existe no banco de dados!");
         }
