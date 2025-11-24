@@ -1,5 +1,6 @@
 package controllers;
 
+import DTO.ClienteDTO;
 import Services.ClienteService;
 import classes.Cliente;
 import java.util.List;
@@ -13,9 +14,9 @@ public class ClienteController {
         this.clienteService = new ClienteService();
     }
 
-    public void cadastrarCliente(Cliente cliente) {
+    public void cadastrarCliente(ClienteDTO clienteDTO) {
         try {
-            clienteService.salvarCliente(cliente);
+            clienteService.salvarCliente(clienteDTO);
             System.out.println("Cliente cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro de validação");
@@ -24,9 +25,9 @@ public class ClienteController {
         }
     }
 
-    public void editarCliente(Cliente cliente) {
+    public void editarCliente(ClienteDTO clienteDTO, Long id) {
         try {
-            clienteService.atualizarCliente(cliente);
+            clienteService.editarCliente(clienteDTO, id);
             System.out.println("Cliente atualizado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro de validação");
@@ -46,7 +47,7 @@ public class ClienteController {
         }
     }
 
-    public Cliente buscarClientePorId(String id) {
+    public Cliente buscarClientePorId(Long id) {
         try {
             return clienteService.buscarPorId(id);
         } catch (Exception e) {
@@ -64,7 +65,7 @@ public class ClienteController {
         }
     }
 
-    public List<Cliente> buscarClientePorCPF(String cpf) {
+    public Cliente buscarClientePorCPF(String cpf) {
         try {
             return clienteService.buscarPorCPF(cpf);
         } catch (IllegalArgumentException e) {
