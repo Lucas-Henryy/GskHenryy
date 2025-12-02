@@ -31,8 +31,25 @@ public class Login {
     public Login() {
     }
 
-    public Login(Long id, String login, String senha) {
-        this.id = id;
+    public Login(String login, String senha) {
+        
+        if (login == null || login.isBlank()) {
+            throw new IllegalArgumentException("O campo 'login' é obrigatório!");
+        }
+
+        if (login.length() < 4) {
+            throw new IllegalArgumentException("O login deve ter pelo menos 4 caracteres!");
+        }
+
+        if (senha == null || senha.isBlank()) {
+            throw new IllegalArgumentException("O campo 'senha' é obrigatório!");
+        }
+
+        if (senha.length() < 4) {
+            throw new IllegalArgumentException("A senha deve ter pelo menos 4 caracteres!");
+        }
+        
+        
         this.login = login;
         this.senha = senha;
     }
