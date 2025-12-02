@@ -16,7 +16,7 @@ public class ClienteDAO {
         executarTransacao(em -> em.merge(cliente));
     }
 
-    public Cliente buscarPorId(String id) {
+    public Cliente buscarPorId(Long id) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             return em.find(Cliente.class, id);
@@ -35,7 +35,7 @@ public class ClienteDAO {
         }
     }
 
-    public List<Cliente> buscarPorCPF(String cpf) {
+    public Cliente buscarPorCPF(String cpf) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             TypedQuery<Cliente> query = em.createQuery(
@@ -43,7 +43,7 @@ public class ClienteDAO {
                 Cliente.class
             );
             query.setParameter("cpf", cpf);
-            return query.getResultList();
+            return query.getSingleResult();
         } finally {
             em.close();
         }
