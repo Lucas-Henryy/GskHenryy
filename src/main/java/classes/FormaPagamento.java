@@ -25,10 +25,16 @@ public class FormaPagamento {
 
     @OneToOne
     @JoinColumn(name = "venda_id", unique = true)
-    private Vendas venda;
-    
-    
-    
+    private Venda venda;
+
+    public FormaPagamento() {
+    }
+
+    public FormaPagamento(String metodoPag, int parcelasPag) {
+        this.metodoPag = metodoPag;
+        this.parcelasPag = parcelasPag;
+    }
+
      public Long getId() {
         return id;
     }
@@ -53,11 +59,11 @@ public class FormaPagamento {
         this.parcelasPag = parcelasPag;
     }
 
-    public Vendas getVenda() {
+    public Venda getVenda() {
         return venda;
     }
 
-    public void setVenda(Vendas venda) {
+    public void setVenda(Venda venda) {
         this.venda = venda;
     }
     
