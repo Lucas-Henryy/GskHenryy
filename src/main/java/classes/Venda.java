@@ -1,4 +1,3 @@
-
 package classes;
 
 import jakarta.persistence.CascadeType;
@@ -19,39 +18,52 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbVendas")
-public class Vendas {
+public class Venda {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idVendas")
     private Long id;
 
-   @Column(name = "dataVenda")
+    @Column(name = "dataVenda")
     private LocalDate dataVenda;
-    
+
     @Column(name = "totalVenda")
     private Double totalVenda;
-    
+
     @Column(name = "qtdVenda")
     private int qtdVenda;
-    
+
     @ManyToOne
     @JoinColumn(name = "cliente_id", unique = true)
     private Cliente cliente;
-    
+
     @ManyToOne
     @JoinColumn(name = "funcionario_id", unique = true)
     private Funcionario funcionario;
-    
-    @OneToOne(mappedBy = "venda", cascade=CascadeType.ALL)
+
+    @OneToOne(mappedBy = "venda", cascade = CascadeType.ALL)
     private FormaPagamento formapagamento;
-    
+
     @ManyToMany
     @JoinTable(
-        name = "tbItemVenda",
-        joinColumns = @JoinColumn(name = "venda_id"),
-        inverseJoinColumns = @JoinColumn(name = "produto_id")
-    ) 
+            name = "tbItemVenda",
+            joinColumns = @JoinColumn(name = "venda_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
     private List<Produto> prod = new ArrayList<>();
+
+    
+    
+    public Venda(LocalDate dataVenda, Double totalVenda, int qtdVenda, Cliente cliente, Funcionario funcionario, FormaPagamento formapagamento) {
+
+        this.dataVenda = dataVenda;
+        this.totalVenda = totalVenda;
+        this.qtdVenda = qtdVenda;
+        this.cliente = cliente;
+        this.funcionario = funcionario;
+        this.formapagamento = formapagamento;
+    }
 
     public Long getId() {
         return id;
@@ -60,7 +72,6 @@ public class Vendas {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public LocalDate getDataVenda() {
         return dataVenda;
@@ -117,7 +128,5 @@ public class Vendas {
     public void setProd(List<Produto> prod) {
         this.prod = prod;
     }
-
-    
 
 }
