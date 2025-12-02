@@ -3,7 +3,6 @@ package controllers;
 import DTO.FuncionarioDTO;
 import classes.Funcionario;
 import services.FuncionarioService;
-import validacoes.Alerta;
 import java.util.List;
 
 public class FuncionarioController {
