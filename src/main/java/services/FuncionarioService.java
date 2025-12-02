@@ -1,38 +1,53 @@
 package services;
 
+import DTO.FuncionarioDTO;
 import classes.Cargo;
 import classes.Funcionario;
+import classes.Login;
+import classesDAO.CargoDAO;
 import classesDAO.FuncionarioDAO;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class FuncionarioService {
 
     private final FuncionarioDAO funcionarioDAO;
-    private final CargoService cargoService;
+    private final CargoDAO cargoDAO;
 
     public FuncionarioService() {
         this.funcionarioDAO = new FuncionarioDAO();
-        this.cargoService = new CargoService();
+        this.cargoDAO = new CargoDAO();
     }
 
-    public void salvarFuncionario(Funcionario funcionario) {
-        validarFuncionario(funcionario);
+    public void salvarFuncionario(FuncionarioDTO funcionarioDTO) {
+        Login login = new Login(funcionarioDTO.getLogin(), funcionarioDTO.getSenha());
+        Cargo cargo = new CargoDAO().buscarPorId(funcionarioDTO.getCargo());
 
-        List<Funcionario> existentes = funcionarioDAO.buscarPorCPF(funcionario.getCpfF());
-        if (!existentes.isEmpty()) {
-            throw new IllegalArgumentException("Já existe um funcionário cadastrado com este CPF!");
-        }
+        Funcionario funcionario = new Funcionario(funcionarioDTO.getNome(), funcionarioDTO.getCpf(), funcionarioDTO.getLogradouro(),
+                funcionarioDTO.getCep(), funcionarioDTO.getNumero(), funcionarioDTO.getComplemento(), funcionarioDTO.getTelefone(),
+                login, cargo);
 
         funcionarioDAO.salvar(funcionario);
     }
 
-    public void atualizarFuncionario(Funcionario funcionario) {
-        if (funcionario == null || funcionario.getId() == null) {
-            throw new IllegalArgumentException("Funcionário inválido para atualização!");
-        }
-        validarFuncionario(funcionario);
-        funcionarioDAO.atualizar(funcionario);
+    public void atualizarFuncionario(FuncionarioDTO funcionarioDTO, Long id) {
+        Funcionario funcionarioEditar = funcionarioDAO.buscarPorId(id);
+        Cargo cargo = new CargoDAO().buscarPorId(funcionarioDTO.getCargo());
+
+        funcionarioEditar.setNomeF(funcionarioDTO.getNome());
+        funcionarioEditar.setCpfF(funcionarioDTO.getCpf());
+        funcionarioEditar.setLogradouro(funcionarioDTO.getLogradouro());
+        funcionarioEditar.setCep(funcionarioDTO.getCep());
+        funcionarioEditar.setNumero(funcionarioDTO.getNumero());
+        funcionarioEditar.setComplemento(funcionarioDTO.getComplemento());
+        funcionarioEditar.setTelefoneF(funcionarioDTO.getTelefone());
+        funcionarioEditar.getLogin().setSenha(funcionarioDTO.getSenha());
+        funcionarioEditar.setCargo(cargo);
+        funcionarioDAO.atualizar(funcionarioEditar);
+    }
+    
+    
+    public Funcionario buscarPorId(Long id) {
+        return funcionarioDAO.buscarPorId(id);
     }
 
     public List<Funcionario> listarFuncionarios() {
@@ -44,81 +59,7 @@ public class FuncionarioService {
     }
 
     public void excluirFuncionario(String id) {
-        if (id == null || id.isBlank()) {
-            throw new IllegalArgumentException("ID inválido para exclusão!");
-        }
         funcionarioDAO.excluirFuncionario(id);
     }
 
-
-    private void validarFuncionario(Funcionario funcionario) {
-        if (funcionario == null) {
-            throw new IllegalArgumentException("Funcionário não pode ser nulo!");
-        }
-
-        // Nome
-        if (funcionario.getNomeF()== null || funcionario.getNomeF().isBlank()) {
-            throw new IllegalArgumentException("O nome é obrigatório!");
-        }
-        if (funcionario.getNomeF().length() < 3) {
-            throw new IllegalArgumentException("O nome deve conter pelo menos 3 caracteres!");
-        }
-
-        // CPF
-        String cpf = funcionario.getCpfF();
-        if (cpf == null || cpf.isBlank()) {
-            throw new IllegalArgumentException("O CPF é obrigatório!");
-        }
-        if (!cpf.matches("\\d{11}")) {
-            throw new IllegalArgumentException("O CPF deve conter exatamente 11 dígitos numéricos!");
-        }
-
-
-        // Logradouro
-        if (funcionario.getLogradouro() == null || funcionario.getLogradouro().isBlank()) {
-            throw new IllegalArgumentException("O logradouro é obrigatório!");
-        }
-        if (funcionario.getLogradouro().length() < 5) {
-            throw new IllegalArgumentException("O logradouro deve conter pelo menos 5 caracteres!");
-        }
-
-        // Número
-        if (funcionario.getNumero() == null || funcionario.getNumero().isBlank()) {
-            throw new IllegalArgumentException("O número é obrigatório!");
-        }
-        if (!Pattern.matches("[A-Za-z0-9]+", funcionario.getNumero())) {
-            throw new IllegalArgumentException("O número deve conter apenas letras e números!");
-        }
-
-        // CEP
-        String cep = funcionario.getCep();
-        if (cep == null || cep.isBlank()) {
-            throw new IllegalArgumentException("O CEP é obrigatório!");
-        }
-        if (!cep.matches("^\\d{8}$|^\\d{5}-\\d{3}$")) {
-            throw new IllegalArgumentException("O CEP deve estar no formato 00000000 ou 00000-000!");
-        }
-
-        // Telefone
-        String telefone = funcionario.getTelefoneF();
-        if (telefone == null || telefone.isBlank()) {
-            throw new IllegalArgumentException("O telefone é obrigatório!");
-        }
-        if (!telefone.matches("\\d{10,11}")) {
-            throw new IllegalArgumentException("O telefone deve conter 10 ou 11 dígitos (com DDD)!");
-        }
-
-        // Cargo
-        if (funcionario.getCargo() == null || funcionario.getCargo().getId() == null) {
-            throw new IllegalArgumentException("O funcionário deve possuir um cargo válido!");
-        }
-        
-        List<Cargo> cargos = cargoService.listarCargos();
-        
-        Cargo cargoExistente = cargoService.buscarPorId(funcionario.getCargo().getId());
-        if (cargoExistente == null) {
-            throw new IllegalArgumentException("O cargo informado não existe no banco de dados!");
-        }
-        
-    }
 }
