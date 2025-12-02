@@ -32,15 +32,35 @@ import jakarta.persistence.Table;
     public Cliente() {
     }
 
-    public Cliente(Long id, String nome, String sexo, String email, String telefone, String cpf) {
-        this.id = id;
+    public Cliente (String nome, String sexo, String email, String telefone, String cpf) {
+        
+      if (cpf == null || cpf.isBlank()) {
+            throw new IllegalArgumentException("CPF não pode estar vazio!");
+        }
+       
+      if (nome == null || nome.isBlank()){
+          throw new IllegalArgumentException("Nome não pode estar vazio!");
+      }
+      
+      if (sexo == null || sexo.isBlank()){
+      throw new IllegalArgumentException("Sexo não pode estar vazio!");
+      }
+      
+      if (email == null || email.isBlank()){
+      throw new IllegalArgumentException("Email não pode estar vazio!");
+      }
+      if (telefone == null || telefone.isBlank()){
+      throw new IllegalArgumentException("Telefone não pode estar vazio!");
+      }
+      
+        
         this.nome = nome;
         this.sexo = sexo;
         this.email = email;
         this.telefone = telefone;
         this.cpf = cpf;
     }
-
+    
     public Long getId() {
         return id;
     }

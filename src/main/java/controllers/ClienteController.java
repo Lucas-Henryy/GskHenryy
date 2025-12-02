@@ -4,7 +4,6 @@ import DTO.ClienteDTO;
 import Services.ClienteService;
 import classes.Cliente;
 import java.util.List;
-import validacoes.Alerta;
 
 public class ClienteController {
 
