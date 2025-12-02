@@ -4,7 +4,7 @@ package classesDAO;
 import classes.Cliente;
 import classes.JPAUtil;
 import classes.Produto;
-import classes.Vendas;
+import classes.Venda;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -41,17 +41,16 @@ public class VendaDAO {
         }
     }
 
-    public List<Vendas> listarVendas(String nome) {
+    public List<Venda> listarVendas(String nome) {
         EntityManager em = JPAUtil.getEntityManager();
-        List<Vendas> listaVenda = new ArrayList<>();
+        List<Venda> listaVenda = new ArrayList<>();
 
         try {
             Query consulta;
             if (nome == null || nome.isBlank()) {
-                consulta = em.createQuery("SELECT v FROM Vendas v", Vendas.class);
+                consulta = em.createQuery("SELECT v FROM Vendas v", Venda.class);
             } else {
-                consulta = em.createQuery(
-                        "SELECT v FROM Vendas v WHERE v.cliente.nome = :nomeC", Vendas.class);
+                consulta = em.createQuery("SELECT v FROM Vendas v WHERE v.cliente.nome = :nomeC", Venda.class);
                 consulta.setParameter("nomeC", nome);
             }
             listaVenda = consulta.getResultList();
@@ -61,12 +60,29 @@ public class VendaDAO {
 
         return listaVenda;
     }
+    
+    
+    
+    public void cadastrarVenda(Venda vendas) {
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            em.persist(vendas);               
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
 
     public void excluirVendas(String id) {
         EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            Vendas vendaRemover = em.find(Vendas.class, id);
+            Venda vendaRemover = em.find(Venda.class, id);
             if (vendaRemover != null) {
                 em.remove(vendaRemover);
             }
