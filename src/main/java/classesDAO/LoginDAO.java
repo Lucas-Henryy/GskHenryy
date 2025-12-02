@@ -1,26 +1,29 @@
-
 package classesDAO;
 
-import classes.JPAUtil;
 import classes.Login;
+import classes.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 public class LoginDAO {
-    public Login usuario(String login, String senha){
+
+    public Login autenticar (String login, String senha) {
         EntityManager em = JPAUtil.getEntityManager();
-        TypedQuery<Login> consul;
 
-        try{
-            consul = em.createQuery("SELECT l FROM Login l where l.login = :login AND l.senha = :senha", Login.class);
-            consul.setParameter("login", login);
-            consul.setParameter("senha", senha);
-            return consul.getSingleResult();
+        try {
+            TypedQuery<Login> query = em.createQuery(
+                "SELECT l FROM Login l WHERE l.login = :login AND l.senha = :senha",
+                Login.class
+            );
+            query.setParameter("login", login);
+            query.setParameter("senha", senha);
 
+            return query.getSingleResult(); 
         } catch (Exception e) {
-            return null;
+            return null; 
         } finally {
             JPAUtil.closeEntityManager();
         }
     }
 }
+
