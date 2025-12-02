@@ -48,6 +48,48 @@ public class Funcionario {
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
 
+    public Funcionario(String nomeF, String cpfF, String logradouro, String cep, String numero, String complemento, String telefoneF, Login login, Cargo cargo) {
+        
+         if (nomeF == null || nomeF.isBlank()) {
+            throw new IllegalArgumentException("O Nome é obrigatório!");
+        }
+         
+         if (cpfF == null || cpfF.isBlank()) {
+            throw new IllegalArgumentException("O CPF é obrigatório!");
+        }
+         
+         if (logradouro == null || logradouro.isBlank()) {
+            throw new IllegalArgumentException("O Logradouro é obrigatório!");
+        }
+         
+         if (cep == null || cep.isBlank()) {
+            throw new IllegalArgumentException("O Cep é obrigatório!");
+        }
+         
+         if (numero == null || numero.isBlank()) {
+            throw new IllegalArgumentException("O Número é obrigatório!");
+        }
+         
+         if (complemento == null || complemento.isBlank()) {
+            throw new IllegalArgumentException("O complemento é obrigatório!");
+        }
+         
+         if (telefoneF == null || telefoneF.isBlank()) {
+            throw new IllegalArgumentException("O Telefone é obrigatório!");
+        }
+                
+        this.nomeF = nomeF;
+        this.cpfF = cpfF;
+        this.logradouro = logradouro;
+        this.cep = cep;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.telefoneF = telefoneF;
+        this.login = login;
+        this.cargo = cargo;
+    }
+
+    
     public Long getId() {
         return id;
     }
