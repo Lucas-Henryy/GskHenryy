@@ -1,5 +1,6 @@
 package controllers;
 
+import DTO.ProdutoDTO;
 import classes.Produto;
 import services.ProdutoService;
 import validacoes.Alerta;
@@ -14,9 +15,9 @@ public class ProdutoController {
     }
     
     
-    public void cadastrarProduto(Produto produto) {
+    public void cadastrarProduto(ProdutoDTO produtoDTO) {
         try {
-            produtoService.cadastrarProduto(produto);
+            produtoService.cadastrarProduto(produtoDTO);
             System.out.println("Produto cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro no cadastro");
@@ -25,9 +26,9 @@ public class ProdutoController {
         }
     }
 
-    public void editarProduto(Produto produto) {
+    public void editarProduto(ProdutoDTO produtoDTO, Long id) {
         try {
-            produtoService.editarProduto(produto);
+            produtoService.editarProduto(produtoDTO, id);
             System.out.println("Produto atualizado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println("Erro na atualização");
